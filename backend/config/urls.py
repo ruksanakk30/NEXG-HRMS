@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.http import JsonResponse
 from django.urls import include, path
 from rest_framework_simplejwt.views import (
@@ -14,8 +16,10 @@ def home(request):
         "status": "Running"
     })
 
+
 urlpatterns = [
     path("", home),
+
     path("admin/", admin.site.urls),
 
     # Authentication
@@ -23,10 +27,10 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
     # HRMS Modules
-    path("api/employees/", include("employees.urls")),
     path("api/departments/", include("departments.urls")),
     path("api/designations/", include("designations.urls")),
-    path("admin/", admin.site.urls),
     path("api/employees/", include("employees.urls")),
-
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
