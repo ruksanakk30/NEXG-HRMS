@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 
-# Create your views here.
+from .models import Payroll
+from .serializers import PayrollSerializer
+
+
+class PayrollViewSet(viewsets.ModelViewSet):
+    queryset = Payroll.objects.all()
+    serializer_class = PayrollSerializer
+    permission_classes = [AllowAny]
