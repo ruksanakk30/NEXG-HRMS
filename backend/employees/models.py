@@ -1,7 +1,7 @@
 from django.db import models
 from departments.models import Department
 from designations.models import Designation
-
+from django.contrib.auth.models import User
 
 class Employee(models.Model):
 
@@ -18,6 +18,16 @@ class Employee(models.Model):
         ("EMPLOYEE", "Employee"),
     ]
 
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    # existing fields...
+
     employee_id = models.CharField(max_length=20, unique=True)
 
     first_name = models.CharField(max_length=100)
@@ -27,7 +37,7 @@ class Employee(models.Model):
     max_length=10,
     choices=GENDER_CHOICES,
     default="Male")
-    
+
     date_of_birth = models.DateField(null=True, blank=True)
 
     email = models.EmailField(unique=True)
